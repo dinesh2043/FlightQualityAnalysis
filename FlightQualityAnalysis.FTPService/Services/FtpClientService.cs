@@ -32,7 +32,8 @@ namespace FlightQualityAnalysis.FTPService.Services
         {
             var memoryStream = new MemoryStream();
             _client.DownloadStream(memoryStream, remoteFilePath);
-            memoryStream.Position = 0;  // Reset stream position for reading
+            // Reset stream position for reading
+            memoryStream.Position = 0;  
             return memoryStream;
         }
     }

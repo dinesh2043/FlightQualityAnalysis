@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
 //Custom Service Collection
 builder.Services.AddFlightQualityAnalysisServices(builder.Configuration);
 
