@@ -17,20 +17,20 @@ The project was developed using an FTP server hosted locally on a PC. The follow
 - FTP_PASSWORD - The password for the FTP user.
 ### 5. Configuration
 Ensure that the following environment variables are set before running the application:
-´´´
+```
 FTP_HOST=your-ftp-host
 FTP_USERNAME=your-ftp-username
 FTP_PASSWORD=your-ftp-password
-´´´
+```
 ### 6. Example appsettings.json
 You can configure the path to the flight CSV file in the appsettings.json:
-´´´
+```
 {
   "FtpSettings": {
     "RemoteFilePath": "/flights.csv"
   }
 }
-´´´
+```
 ### 6. Features
 - FTP Integration: Connects to a local FTP server to download flight data.
 - CSV Parsing: Uses CSVHelper to read and map flight data to a strongly-typed model (FlightInfo).
