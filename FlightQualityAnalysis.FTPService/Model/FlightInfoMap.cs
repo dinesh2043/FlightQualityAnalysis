@@ -2,8 +2,10 @@
 
 namespace FlightQualityAnalysis.FTPService.Model
 {
+    //Mapper to map CSV columns to the FlightInfo model
     public class FlightInfoMap : ClassMap<FlightInfo>
     {
+
         public FlightInfoMap()
         {
             Map(m => m.Id).Name("id");
