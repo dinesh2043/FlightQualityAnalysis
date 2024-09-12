@@ -1,39 +1,45 @@
 ﻿using FlightQualityAnalysis.FTPService.Services.Interfaces;
 using FluentFTP;
+using Microsoft.Extensions.Logging;
 
 namespace FlightQualityAnalysis.FTPService.Services
 {
     public class FtpClientService : IFtpClientService
     {
-        private FtpClient _client;
+        private AsyncFtpClient _client;
+        private ILogger<FtpClientService> _logger;
 
-        public FtpClientService(FtpClient client)
+        public FtpClientService(AsyncFtpClient client, ILogger<FtpClientService> logger)
         {
             _client = client;
+            _logger = logger;
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             if (!_client.IsConnected)
             {
-                _client.Connect();
+                _logger.LogInformation("FTP Server Connected.");
+                await _client.Connect();
             }
         }
 
-        public void Disconnect()
+        public async Task Disconnect()
         {
             if (_client.IsConnected)
             {
-                _client.Disconnect();
+                _logger.LogInformation("FTP Server Disconnected.");
+                await _client.Disconnect();
             }
         }
 
-        public Stream DownloadFile(string remoteFilePath)
+        public async Task<Stream> DownloadFile(string remoteFilePath)
         {
             var memoryStream = new MemoryStream();
-            _client.DownloadStream(memoryStream, remoteFilePath);
+            await _client.DownloadStream(memoryStream, remoteFilePath);
             // Reset stream position for reading
-            memoryStream.Position = 0;  
+            memoryStream.Position = 0;
+            _logger.LogInformation("File Stream Downloaded.");
             return memoryStream;
         }
     }

@@ -10,7 +10,7 @@ namespace FlightQualityAnalysis.API
             IConfiguration configuration) 
         {
             // Register the FtpClient in the DI container
-            services.AddTransient<FtpClient>(serviceProvider =>
+            services.AddTransient<AsyncFtpClient>(serviceProvider =>
             {
                 var host = Environment.GetEnvironmentVariable("FTP_HOST");
                 var username = Environment.GetEnvironmentVariable("FTP_USERNAME");
@@ -21,7 +21,7 @@ namespace FlightQualityAnalysis.API
                     throw new InvalidOperationException("FTP credentials are not configured properly.");
                 }
 
-                var ftpClient = new FtpClient(host, username, password)
+                var ftpClient = new AsyncFtpClient(host, username, password)
                 {
                     Config = { EncryptionMode = FtpEncryptionMode.Auto, ValidateAnyCertificate = true }
                 };
@@ -31,6 +31,7 @@ namespace FlightQualityAnalysis.API
             services.AddTransient<ICsvFlightInfoParser, CsvFlightInfoParser>();
             services.AddScoped<IFtpClientService, FtpClientService>();
             services.AddTransient<FlightInfoService>();
+            services.AddTransient<IFlightInconsistencyChecker, FlightInconsistencyChecker>();
             return services;
         }
     }
