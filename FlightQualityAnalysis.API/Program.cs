@@ -1,4 +1,5 @@
 using FlightQualityAnalysis.API;
+using FlightQualityAnalysis.API.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddExceptionHandler<GeneralExceptionHandler>();
 
 //Custom Service Collection
 builder.Services.AddFlightQualityAnalysisServices(builder.Configuration);
@@ -23,6 +25,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
 

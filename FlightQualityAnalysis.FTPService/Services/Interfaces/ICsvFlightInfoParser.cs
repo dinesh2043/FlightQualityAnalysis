@@ -4,6 +4,6 @@ namespace FlightQualityAnalysis.FTPService.Services.Interfaces
 {
     public interface ICsvFlightInfoParser
     {
-        IEnumerable<FlightInfo> ParseCsv(Stream csvStream);
+        Task<IEnumerable<FlightInfo>> ParseCsv(Stream csvStream);
     }
 }

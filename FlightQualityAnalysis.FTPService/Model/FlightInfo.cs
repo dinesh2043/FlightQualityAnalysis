@@ -1,12 +1,10 @@
 ﻿
-using CsvHelper.Configuration.Attributes;
-
 namespace FlightQualityAnalysis.FTPService.Model
 {
     public class FlightInfo
     {
         public int Id { get; set; }
-        public string? AircraftRegistrationNumber { get; set; }
+        public required string AircraftRegistrationNumber { get; set; }
         public string? AircraftType { get; set; }
         public string? FlightNumber { get; set; }
         public string? DepartureAirport { get; set; }

@@ -1,5 +1,6 @@
 ﻿using FlightQualityAnalysis.FTPService.Model;
 using FlightQualityAnalysis.FTPService.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace FlightQualityAnalysis.FTPService.Services
 {
@@ -7,22 +8,27 @@ namespace FlightQualityAnalysis.FTPService.Services
     {
         private readonly IFtpClientService _ftpClientService;
         private readonly ICsvFlightInfoParser _flightInfoParser;
+        private readonly ILogger<FlightInfoService> _logger;
 
-        public FlightInfoService(IFtpClientService ftpClientService, ICsvFlightInfoParser flightInfoParser)
+        public FlightInfoService(IFtpClientService ftpClientService, ICsvFlightInfoParser flightInfoParser,
+            ILogger<FlightInfoService> logger)
         {
             _ftpClientService = ftpClientService;
             _flightInfoParser = flightInfoParser;
+            _logger = logger;
         }
 
-        public IEnumerable<FlightInfo> ReadCsvWithFluentFtpAndCsvHelper(string remoteFilePath)
+        public async Task<IEnumerable<FlightInfo>> ReadCsvWithFluentFtpAndCsvHelper(string remoteFilePath)
         {
-            _ftpClientService.Connect();
+            await _ftpClientService.Connect();
 
-            var fileStream = _ftpClientService.DownloadFile(remoteFilePath);
+            var fileStream = await _ftpClientService.DownloadFile(remoteFilePath);
 
-            var flightRecords = _flightInfoParser.ParseCsv(fileStream);
+            var flightRecords = await _flightInfoParser.ParseCsv(fileStream);
 
-            _ftpClientService.Disconnect();
+            _logger.LogInformation("Csv file parser called.");
+
+            await _ftpClientService.Disconnect();
 
             return flightRecords;
         }
