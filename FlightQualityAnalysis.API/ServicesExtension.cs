@@ -10,7 +10,7 @@ namespace FlightQualityAnalysis.API
             IConfiguration configuration) 
         {
             // Register the FtpClient in the DI container
-            services.AddTransient<AsyncFtpClient>(serviceProvider =>
+            services.AddTransient(serviceProvider =>
             {
                 var host = Environment.GetEnvironmentVariable("FTP_HOST");
                 var username = Environment.GetEnvironmentVariable("FTP_USERNAME");
@@ -30,7 +30,7 @@ namespace FlightQualityAnalysis.API
 
             services.AddTransient<ICsvFlightInfoParser, CsvFlightInfoParser>();
             services.AddScoped<IFtpClientService, FtpClientService>();
-            services.AddTransient<FlightInfoService>();
+            services.AddTransient<IFlightInfoService, FlightInfoService>();
             services.AddTransient<IFlightInconsistencyChecker, FlightInconsistencyChecker>();
             return services;
         }
