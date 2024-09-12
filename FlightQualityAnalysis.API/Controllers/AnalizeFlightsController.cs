@@ -11,11 +11,11 @@ namespace FlightQualityAnalysis.API.Controllers
     public class AnalizeFlightsController : ControllerBase
     {
         private readonly ILogger<AnalizeFlightsController> _logger;
-        private readonly FlightInfoService _flightInfoService;
+        private readonly IFlightInfoService _flightInfoService;
         private readonly IConfiguration _configuration;
         private readonly IFlightInconsistencyChecker _flightInconsistencyChecker;
 
-        public AnalizeFlightsController(ILogger<AnalizeFlightsController> logger, FlightInfoService flightInfoService,
+        public AnalizeFlightsController(ILogger<AnalizeFlightsController> logger, IFlightInfoService flightInfoService,
             IConfiguration configuration, IFlightInconsistencyChecker flightInconsistencyChecker)
         {
             _logger = logger;

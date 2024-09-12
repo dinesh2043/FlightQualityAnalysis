@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlightQualityAnalysis.FTPService.Services
 {
-    public class FlightInfoService
+    public class FlightInfoService : IFlightInfoService
     {
         private readonly IFtpClientService _ftpClientService;
         private readonly ICsvFlightInfoParser _flightInfoParser;
